@@ -24,6 +24,9 @@ class MCP4812 :
 		if ((channel > 1) or (channel < 0)):
 			print "Invalid channel %d, must be 0 or 1" % channel
 			return -1
+		if (gain == 1 and voltage > self._DAC_REF) or (gain == 2 and voltage > (2 * self._DAC_REF)):
+			print "Invalid voltage and gain setting"
+			return -1
 		if (gain == 2): bit_gain = 0
 		else:           bit_gain = 1
 		dac_val = int((voltage / (self._DAC_REF * gain) * self._MAX_DAC_VAL)) & self._MAX_DAC_CODE
